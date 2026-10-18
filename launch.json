@@ -1,0 +1,13 @@
+{
+  "kind": "evm_contracts",
+  "contracts": [
+    {
+      "contract": "PixelFun",
+      "constructorArgs": [
+        "0x5F7Bb59365ce557C26dbcAa4EE9d39A4b95B7127",
+        "20"
+      ]
+    }
+  ],
+  "notes": "PixelFun is an ownerless 512x512 on-chain pixel canvas with a 32-color palette on Robinhood Chain. Constructor arguments: imd_ = 0x5F7Bb59365ce557C26dbcAa4EE9d39A4b95B7127 (the $IMD token named by the brief, a static address) and minPixels_ = 20 (MIN_PIXELS, the value the brief says the launch passes). EPOCH_START is the deployment block timestamp. The constructor makes no external call; PRICE = 5 * 10**(decimals-3) (0.005 IMD) is read from the token on first use and cached, reverting if decimals < 3. Users deposit IMD into a per-user vault (credited by balance difference, so fee-on-transfer tokens are handled), withdraw unspent balance at any time, and paint 1..100 pixels per call at PRICE each; the cost is burned immediately by transferring it to 0x000000000000000000000000000000000000dEaD, because the bridged IMD token's burn(uint256) could not be confirmed permissionless. Pixels are packed 32 per storage slot (0 = unpainted, 1..32 = color+1) and readable via getPixels/pixelAt. Each 3-day epoch keeps an on-chain board of the top 66 painters (entry requires >= MIN_PIXELS in that epoch, strict-greater displacement, ties favor earlier reach), readable via getBoard/isWhitelisted; finished boards are frozen. The contract has no owner, admin, pause, upgrade or privileged function, so no $owner argument is used."
+}
